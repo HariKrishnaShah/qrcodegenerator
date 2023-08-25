@@ -1,0 +1,43 @@
+
+<head>
+    <style>
+    #main{margin:200px;}
+    </style>
+</head>
+
+<body>
+    <div id = "main">
+        <label for = "url">Enter your URL Here</label>
+        <input type = "text" id = "url" name = "url"><br>
+        <button onclick= "getqrcode()">Get QR Code</button>
+        <h1>Your QR is below</h1>
+        <div id = "canvas">
+            <img id = "qri" src = <%-url%>
+        </canvas>
+    </div>
+
+
+
+    <script>
+        let imageqr = "";
+        async function getqrcode(){
+            console.log("Function called");
+            const urltosend = document.getElementById("url").value;
+                imageqr = await fetch("http://localhost:4000/getqr", {
+            method: "GET",
+            headers: {
+            "urlhead": urltosend
+        }
+    });
+    const fi = await imageqr.json();
+    console.log("The qr code is " + fi);
+    document.getElementById("qri").src = fi;
+        }
+        
+        
+
+    </script>
+    <!-- JavaScript Libraries -->
+
+    <!-- Template Javascript -->
+</body>
