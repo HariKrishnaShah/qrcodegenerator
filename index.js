@@ -5,11 +5,13 @@ var QRCode = require('qrcode');
 const app = express();
 const port = 4000;
 const mainIndex = require("./routes/index.js");
+const mailer = require("./routes/mailer.js")
 app.use(express.json())
 app.use(morgan("combined"));
 app.set("view engine", "ejs")
 app.set("views", "./views")
 app.use("/", mainIndex);
+app.use("/sendmail", mailer)
 app.use(express.static("public"));
 
 app.get("/getqr", (req, res)=>{
