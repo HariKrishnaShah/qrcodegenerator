@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 const fs = require('fs');
 const Handlebars = require('handlebars');
 const path = require('path');
-
+require('dotenv').config();
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 465,
@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
   auth: {
     // TODO: replace `user` and `pass` values from <https://forwardemail.net>
     user: 'hksshah111@gmail.com',
-    pass: "jslsmojkgpkbmgrv"
+    pass: process.env.password
   }
 });
 transporter.verify(function (error, success) {
@@ -35,14 +35,11 @@ async function main(qrcode, mailaddress) {
     subject: "QRCODE", // Subject line
     text: "", // plain text body
     html: mail,
-    attachments:[
-      {
-        filename:"image.png",
-        path:qrcode,
-        cid:"unique@nodemailer.com"
-      }
-      
-    ]
+    attachments: [{
+      filename: 'image.png',
+      path: qrcode,
+      cid: 'unique@nodemailer.com' //same cid value as in the html img src
+  }]
   });
 
   console.log("Message sent: %s", info.messageId);
