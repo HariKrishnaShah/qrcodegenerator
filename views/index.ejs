@@ -1,12 +1,42 @@
 
 <head>
     <style>
-    #main{margin:200px;}
+    #main{margin:100px 500px; font-weight: bold;}
+    #canvas img{width:200px;}
+    #qri{border:10px solid black; margin-bottom: 20px;}
+    #intro{font-size: 50px; color:rgb(205, 68, 68); font-weight:bold;}
+    #result{visibility:hidden; border: 5px solid black; background-color: rgb(127, 236, 127); padding:10px;}
     </style>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+  
+    <title>Digitf</title>
+  
+    <!-- slider stylesheet -->
+    <link rel="stylesheet" type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+  
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  
+    <!-- fonts style -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,700&display=swap" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="css/responsive.css" rel="stylesheet" />
 </head>
 
 <body>
+    <center><span id = "intro">QR CODE Generator By Hari Shah</span><br></center>
     <div id = "main">
+        <div class = "container">
         <label for = "url">Enter your URL Here</label>
         <input type = "text" id = "url" name = "url"><br>
         <button onclick= "getqrcode()">Get QR Code</button>
@@ -15,7 +45,9 @@
             <img id = "qri" src = <%-url%>
         </div><br>
         <input type = "email" name = "mail" id = "mail">
-        <button id = "mailsend" onclick = "mailsender()">Send to email</button>
+        <button id = "mailsend" onclick = "mailsender()">Send to email</button><br><br>
+        <span id = "result"></span>
+    </div>
     </div>
 
 
@@ -39,6 +71,16 @@
         async function mailsender(){
             const qrcode = document.getElementById("qri").src;
             const mailaddress = document.getElementById("mail").value;
+            if(mailaddress == "")
+            {
+                document.getElementById("result").style.visibility = "visible";
+                document.getElementById("result").innerHTML = "Enter your mail id first.";setTimeout(()=>{
+            document.getElementById("result").style.visibility = "hidden";
+        document.getElementById("result").innerHTML = "";
+        }, 3000)
+
+                return 0;
+            }
             console.log("The mail sender has been called");
             console.log("The image details is " + qrcode);
             const result = await fetch("http://localhost:4000/sendmail", {
@@ -49,6 +91,12 @@
         }
         });
         console.log(result.json());
+        document.getElementById("result").style.visibility = "visible";
+        document.getElementById("result").innerHTML = "Mail sent to your email address";
+        setTimeout(()=>{
+            document.getElementById("result").style.visibility = "hidden";
+        document.getElementById("result").innerHTML = "";
+        }, 3000)
     }
         
         
